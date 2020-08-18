@@ -7,16 +7,19 @@ export default class Game extends React.Component {
     this.state = {
         history: [{
             squares: Array(9).fill(null),
+            column : 0,
+            row : 0,
         }],
         stepNumber: 0,
         xIsNext: true,
     }
   }
-  
+
   handleClick(i) {
       const history = this.state.history.slice(0, this.state.stepNumber + 1);
       const current = history[history.length - 1];
       const squares = current.squares.slice();
+      const boardSize = 3;
       if (calculateWinner(squares) || squares[i]){
           return;
       }
@@ -24,6 +27,8 @@ export default class Game extends React.Component {
       this.setState({
           history: history.concat([{
             squares: squares,
+            column : i % boardSize + 1,
+            row : Math.floor(i / boardSize) + 1,
           }]),
           stepNumber: history.length,
           xIsNext: !this.state.xIsNext,
@@ -43,8 +48,9 @@ export default class Game extends React.Component {
     const winner = calculateWinner(current.squares);
     
     const moves = history.map((step,move) => {
+      console.log(step);
       const desc = move ?
-        'Go to move #' + move :
+        'Go to move #' + move + ', column : ' + step.column + ', row ' + step.row :
         'Go to game start';
       return (
         <li key={move}>
