@@ -3,6 +3,7 @@ import Square from './square';
 import './board.css';
 
 export default class Board extends React.Component {
+
   renderSquare(i) {
     return ( 
     <Square
@@ -13,24 +14,21 @@ export default class Board extends React.Component {
   }
 
   render() {
-    return (
-      <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+  	return (
+    	<div className="board">
+      {
+      	[0,1,2].map( (row) => {
+				 return <div key={row} className="board-row">
+            {
+            	[1,2,3].map( (col) => {
+          			return this.renderSquare(row * 3 +col);
+          		})
+            }
+            </div>
+
+      	})
+      }
       </div>
-    );
+    )
   }
 }
